@@ -1,0 +1,37 @@
+.jumbotron {
+  padding-top: 2rem;
+  background-color: #d6e9f5;
+}
+
+section {
+  padding-top: 5rem;
+}
+
+#project {
+  background-color: #d6e9f5;
+}
+
+.card {
+  padding: 2px;
+  border: 1px solid rgba(238, 238, 238, 0.5);
+}
+
+.form-control:focus {
+  border: none;
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+}
+/*
+.card img {
+  height: 200px;
+} */
+
+/* @media (max-width: 886px) {
+  .card {
+    margin: 0 auto;
+    width: 90%;
+  }
+} */
