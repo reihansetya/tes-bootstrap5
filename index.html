@@ -49,7 +49,7 @@
 
     <!-- jumbotron -->
     <section class="jumbotron text-center mt-5 pt-5">
-        <img src="img/poto2.png" class="img-thumbnail rounded-circle" alt="" width="200">
+        <img src="./img/poto2.png" class="img-thumbnail rounded-circle" alt="" width="200">
         <h1 class="display-4">Reihan Setya Abida</h1>
         <p class="lead">Programmer | Web Developer | Manusia</p>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
@@ -162,7 +162,11 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-6">
-                    <form name="submit-to-google-sheet">
+                    <div class="alert alert-success alert-dismissible fade show d-none" role="alert">
+                        <strong>Pesan berhasil dikirim!</strong> Terimakasih atas feedbacknya
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <form name="tes-kirim">
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
                             <input type="name" name="nama" class="form-control" id="name" placeholder="masukan nama">
@@ -177,7 +181,11 @@
                             <textarea name="pesan" class="form-control" id="pesan" rows="3"
                                 placeholder="masukan pesan..."></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Kirim</button>
+                        <button type="submit" class="btn btn-kirim btn-primary">Kirim</button>
+                        <button class="btn btn-primary btn-loading d-none" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Loading...
+                        </button>
                     </form>
                 </div>
             </div>
@@ -207,7 +215,9 @@
         integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
     </script>
 
+    <!-- js aing -->
     <script>
+        //tampian mobile biar kalo di klik langung ilnag
         let navLinks = document.querySelectorAll('.nav-link');
         const menuToggle = document.getElementById('navbarNav')
         const bsCollapse = new bootstrap.Collapse(menuToggle)
@@ -217,17 +227,35 @@
             })
         });
 
+        //google spreadsheet
         const scriptURL =
             'https://script.google.com/macros/s/AKfycbzzU7azQP9y8tCpR36m3d_C2-T3v5DODd1uv8Y9DD2wpixZuv9uGLZQC1PwlU5B99st/exec'
-        const form = document.forms['submit-to-google-sheet']
+        const form = document.forms['tes-kirim'];
+
+        //buat nampilin tulisan kalo dh kekirm
+        const btnkirim = document.querySelector('.btn-kirim');
+        const btnLoading = document.querySelector('.btn-loading');
+        const alertSucces = document.querySelector('.alert')
 
         form.addEventListener('submit', e => {
             e.preventDefault()
+            //ketika submit di klik
+            //tombol loading tampil, tombol kirim hilang
+            btnLoading.classList.toggle('d-none');
+            btnkirim.classList.toggle('d-none');
             fetch(scriptURL, {
                     method: 'POST',
                     body: new FormData(form)
                 })
-                .then(response => console.log('Success!', response))
+                .then((response) => {
+                    //tampilkan tobolkirim, hilangkan tombol loading
+                    btnLoading.classList.toggle('d-none');
+                    btnkirim.classList.toggle('d-none');
+                    alertSucces.classList.toggle('d-none');
+                    //reset form
+                    form.reset();
+                    console.log('Success!', response);
+                })
                 .catch(error => console.error('Error!', error.message))
         })
     </script>
